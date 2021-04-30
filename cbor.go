@@ -83,6 +83,15 @@ func initCBORDecMode() (dm cbor.DecMode, err error) {
 		return nil, err
 	}
 
+	err = tags.Add(
+		cbor.TagOptions{EncTag: cbor.EncTagRequired, DecTag: cbor.DecTagRequired},
+		reflect.TypeOf(Sign1Message{}),
+		Sign1MessageCBORTag,
+	)
+	if err != nil {
+		return nil, err
+	}
+
 	decOpt := cbor.DecOptions{
 		IndefLength: cbor.IndefLengthForbidden, // no streaming
 		IntDec:      cbor.IntDecConvertSigned,  // decode CBOR uint/int to Go int64
